@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Upload Document for {{ customer }}</h2>
+    </div>
+    <div class="card-body">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <form method="post" enctype="multipart/form-data" id="uploadForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="attached_file">Document</label>
+                <input type="file" id="attached_file" name="attached_file" onchange="previewFile()">
+            </div>
+            <div id="preview"></div>
+            <button type="submit" class="btn btn-primary mt-2">Upload Document</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function previewFile() {
+    var preview = document.getElementById('preview');
+    var file    = document.querySelector('input[type=file]').files[0];
+    var reader  = new FileReader();
+
+    reader.onloadend = function () {
+        var img = document.createElement('img');
+        img.src = reader.result;
+        img.style.maxWidth = '200px'; // Adjust the max width as needed
+        img.style.maxHeight = '200px'; // Adjust the max height as needed
+        preview.innerHTML = ''; // Clear previous preview
+        preview.appendChild(img);
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.innerHTML = '';
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>List of Customers</h2>
+    </div>
+    <div class="card-body">
+        <table class="table table-success table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Surname</th>
+                    <th>Nationality</th>
+                    <th>Gender</th>
+                    <th>Created By</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.first_name }}</td>
+                    <td>{{ customer.surname }}</td>
+                    <td>{{ customer.nationality.name }}</td>
+                    <td>{{ customer.gender }}</td>
+                    <td>{{ customer.created_by.username }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
